@@ -12,8 +12,14 @@ import router from "@router/index"
 import 'normalize.css/normalize.css'
 import { createPinia } from 'pinia'
 const pinia = createPinia()
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import './style/index.scss'
+import print from 'vue3-print-nb'
 
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
+app.use(ElementPlus)
+app.use(print)
 app.mount("#app");

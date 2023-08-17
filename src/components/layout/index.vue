@@ -6,7 +6,7 @@
 
             </div>
             <div class="main">
-
+                <AppMain></AppMain>
             </div>
         </div>
     </div>
@@ -14,6 +14,7 @@
 
 <script setup lang='ts'>
 import Menu from "./Menu.vue"
+import AppMain from "./AppMain.vue"
 
 </script>
 
@@ -39,6 +40,7 @@ import Menu from "./Menu.vue"
                 padding: 10px;
                 background: #fff;
                 overflow: auto;
+                display: flex;
             }
         }
     }

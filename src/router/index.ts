@@ -16,30 +16,33 @@ const routes: Array<RouteRecordRaw> = [
     name: '',
     redirect: '/home',
     component: Layout,
+    meta: { name: '', },
     children: [
       {
         path: "/home",
         name: "home",
         component: HomeView,
+        meta: { name: '首页' },
       },
       {
-        path: "/about",
-        name: "about",
+        path: "/printPage",
+        name: "printPage",
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+        component: () => import(/* webpackChunkName: "about" */ "../views/printPage/index.vue"),
+        meta: { name: '打印Dom' },
       },
       {
-        path: "/touch",
-        name: "touch",
+        path: "/pdfToImg",
+        name: "pdfToImg",
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/touch/index.vue"),
+        component: () => import(/* webpackChunkName: "about" */ "../views/pdfToImg/index.vue"),
+        meta: { name: 'PDFToImage' },
       },
+      
     ]
   }
 ];

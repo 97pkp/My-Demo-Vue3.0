@@ -13,6 +13,6 @@ export const useConfigStore = defineStore('ConfigStore', {
   actions: {
     updateIsOpen(data: boolean) {
       this.isOpen = data
-    },
+    }
   }
 })
