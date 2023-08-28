@@ -48,7 +48,9 @@
 
 <script setup lang='ts'>
 import { ref, reactive } from 'vue'
-import pdfjsLib from 'pdfjs-dist';
+import * as pdfjsLib from 'pdfjs-dist/build/pdf.js';
+pdfjsLib.PDFJS.workerSrc = 'pdf.worker.min.js'
+
 import JSZip from 'jszip';
 import FileSaver from 'file-saver';
 const pdfInfo = reactive({
@@ -58,10 +60,10 @@ const pdfInfo = reactive({
     startCurrent: '',
     endCurrent: ''
 })
+
 let isUpload = ref<boolean>(false)
 const concatPage = ref(false)
 const zip = new JSZip();
-
 
 function emitInputFn() {
     clearHandle()
@@ -85,9 +87,8 @@ function clearHandle() {
 function changeHandle(e) {
     let imgDiv = document.getElementById('imgDiv')
     var files = e.target.files; //获取到文件
-    console.log(files);
     var fileSize = files[0].size;
-    var mb;
+    var mb:any;
     if (fileSize) {
         mb = fileSize / 1048576;
         if (mb > 10) {
