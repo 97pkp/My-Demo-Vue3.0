@@ -55,7 +55,7 @@ module.exports = {
 	productionSourceMap: true,
   css: {
 		// 是否使用css分离插件 ExtractTextPlugin
-		extract: true,
+		// extract: true,
 		// 开启 CSS source maps?是否在构建样式地图，false将提高构建速度
 		sourceMap: false,
 		// css预设器配置项
