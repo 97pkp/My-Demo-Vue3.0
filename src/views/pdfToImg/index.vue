@@ -191,7 +191,6 @@ function exportHandle() {
         canvasList.forEach((item, index) => {
             let idx = index + 1;
             let canvas:any = document.getElementById("pageNum" + idx);
-
             let startIdx = pdfInfo.startCurrent
             let endIdx = pdfInfo.endCurrent
             if ((startIdx && parseInt(startIdx) > idx) || (endIdx && parseInt(endIdx) < idx)) {
@@ -210,7 +209,7 @@ function exportHandle() {
 }
 
 //dataURL转成Blob
-function dataURLtoBlob(dataurl) {
+function dataURLtoBlob(dataurl:any) {
     var arr = dataurl.split(','),
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]),
