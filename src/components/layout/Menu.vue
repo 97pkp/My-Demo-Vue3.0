@@ -6,7 +6,9 @@
         </div>
         <div class="menu">
             <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" :default-active="activeMenu" text-color="#fff" @open="handleOpen" @close="handleClose">
-                <MenuItem :item="routers"></MenuItem>
+                <template v-for="item in routers" :key="item.path">
+                    <MenuItem v-if="!item!.meta!.hidden" :item="item" :base-path="item.path" ></MenuItem>
+                </template>
             </el-menu>
         </div>
     </div>
@@ -20,16 +22,18 @@ import { useRoute, useRouter } from "vue-router";
 import { ref, toRefs, onMounted, computed } from "vue";
 const configStore = useConfigStore()
 const { isOpen, title } = storeToRefs(configStore);
+const router:any = useRouter()
+console.log('路由呀：', router.options.routes);
 
-const routers:any = computed(() => {
-    const router = useRouter()
-    console.log('options:',router.options.routes)
-    if(router.options.routes[0].path === '/') {
-        return router.options.routes[0].children
+let _arr:any = []
+router.options.routes.forEach((item: any) => {
+    if(item.children) {
+        _arr.push(...item.children)
     }else{
-        return router.options.routes
+        _arr.push(item)
     }
 })
+const routers = _arr
 
 const activeMenu = computed(() => {
     const route = useRoute()
@@ -41,15 +45,15 @@ const activeMenu = computed(() => {
     return name
 })
 
-function logoChange(e) {
+function logoChange(e: any) {
     configStore.$patch(state => {
         state.isOpen = !isOpen.value
     })
 }
-function handleOpen(key, keyPath) {
+function handleOpen(key: any, keyPath: any) {
     console.log(key, keyPath);
 }
-function handleClose(key, keyPath) {
+function handleClose(key: any, keyPath: any) {
     console.log(key, keyPath);
 }
 </script>

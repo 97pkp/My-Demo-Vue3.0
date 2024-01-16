@@ -17,9 +17,10 @@ import 'element-plus/dist/index.css'
 import './style/index.scss'
 import print from 'vue3-print-nb'
 
+
 const app = createApp(App)
-app.use(router)
 app.use(pinia)
+app.use(router)
 app.use(ElementPlus)
 app.use(print)
 app.mount("#app");

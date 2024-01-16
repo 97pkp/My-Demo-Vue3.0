@@ -46,5 +46,6 @@ watch(route, (newV, oldV) => {
 <style scoped lang="scss">
     .breadcrumb-wrap{
         padding: 0 0 10px;
+        padding: 0;
     }
 </style>

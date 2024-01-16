@@ -10,25 +10,27 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import Layout from '@/components/layout/index.vue'
 import Login from '../views/login/index.vue'
+import { useRouterConfig } from "@/store/permission";
 
-const routes: Array<RouteRecordRaw> = [
+// 静态路由-不需要权限
+export const constantRoutes: Array<RouteRecordRaw> = [
   {
       path: '/login',
-      name: '',
       component: Login,
+      meta: { hidden: true }
   },
   {
     path: '/',
     name: '',
     redirect: '/home',
     component: Layout,
-    meta: { name: '', },
+    meta: { hidden: false },
     children: [
       {
         path: "/home",
         name: "home",
         component: HomeView,
-        meta: { name: '首页' },
+        meta: { title: '首页' },
       },
       {
         path: "/printPage",
@@ -37,7 +39,7 @@ const routes: Array<RouteRecordRaw> = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ "../views/printPage/index.vue"),
-        meta: { name: '打印Dom' },
+        meta: { title: '打印Dom' },
       },
       {
         path: "/pdfToImg",
@@ -46,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ "../views/pdfToImg/index.vue"),
-        meta: { name: 'PDFToImage' },
+        meta: { title: 'PDFToImage' },
       },
       {
         path: "/LiveQingVideo",
@@ -55,16 +57,99 @@ const routes: Array<RouteRecordRaw> = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ "../views/LiveQingVideo/index.vue"),
-        meta: { name: 'LiveQing视频播放器' },
+        meta: { title: 'LiveQing视频播放器' },
       },
-      
+      {
+        path: "/LogicFlow",
+        name: "LogicFlow",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ "../views/LogicFlow/index.vue"),
+        meta: { title: 'LogicFlow流程图' },
+      }
     ]
   }
 ];
 
+// 异步路由-需要权限
+export const asyncRoutes: Array<RouteRecordRaw> = [
+  {
+    path: '/auth',
+    name: '',
+    redirect: '/auth',
+    component: Layout,
+    meta: { title: '用户权限', hidden: false },
+    children: [
+      {
+        path: "/auth/admin",
+        name: "AdminPage",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ "../views/AdminPage/index.vue"),
+        meta: { title: '管理员可见', auth: 'admin' },
+      },
+      {
+        path: "/auth/user",
+        name: "UserPage",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ "../views/UserPage/index.vue"),
+        meta: { title: '用户可见', auth: 'user' },
+      },
+    ]
+  },
+  {
+    path: '/authuser',
+    name: '',
+    redirect: '/authuser',
+    component: Layout,
+    meta: { title: '用户权限user', hidden: false },
+    children: [
+      {
+        path: "/authuser/index",
+        name: "Authuser",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ "../views/Authuser/index.vue"),
+        meta: { title: '用户可见user', auth: 'user' },
+      }
+    ]
+  }
+]
+
 const router = createRouter({
   history: createWebHashHistory(),
-  routes,
+  routes: constantRoutes
 });
+
+router.beforeEach((to,from,next) => {
+  console.log('to:',to,'from:',from);
+  next()
+  const routerConfig = useRouterConfig()
+  if(to.path === '/login') {
+    next()
+  } else {
+    if(localStorage.getItem('token')) {
+      if(routerConfig.roles){
+        next()
+      }else{
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }
+        })
+      }
+    }else{
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    }
+  }
+})
+
 
 export default router;

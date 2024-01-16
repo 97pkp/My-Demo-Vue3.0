@@ -17,6 +17,8 @@
   },
   "devDependencies": {
     "@liveqing/liveplayer-v3": "^3.7.17",
+    "@logicflow/core": "^1.2.15",
+    "@logicflow/extension": "^1.2.16",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-eslint": "~5.0.0",

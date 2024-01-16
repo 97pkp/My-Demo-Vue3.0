@@ -1,5 +1,5 @@
 <template>
-    <div style="display: flex;align-items: flex-start;">
+    <div style="display: flex;align-items: flex-start;position: relative;">
         <div class="profile">
             <h4 class="name">PDF转图片 <span style="font-weight: normal;font-size: 12px;color: #aaa;">（文档大小 小于 10Mb）</span></h4>
             <div style="display: flex;">
@@ -249,6 +249,8 @@ function dataURLtoBlob(dataurl:any) {
     border: 1px solid #eee;
     flex-shrink: 0;
     box-sizing: border-box;
+    position: sticky;
+    top: 0;
 }
 
 .img-content-wrap {

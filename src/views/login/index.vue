@@ -15,7 +15,7 @@
                     <el-button class="submit_btn" type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
                 </el-form-item>
                 <el-form-item style="margin-bottom: 0;">
-                    <p class="tip">管理员：admin/123456 &nbsp;&nbsp;&nbsp;&nbsp; 普通用户：user/123456</p>
+                    <p class="tip"><span @click="userFn(1)">管理员：admin/123456</span> &nbsp;&nbsp;&nbsp;&nbsp; <span @click="userFn(2)">普通用户：user/123456</span></p>
                 </el-form-item>
             </el-form>
         </div>
@@ -26,10 +26,10 @@
 import { reactive, ref } from 'vue'
 import { FormInstance, FormRules, ElMessage } from 'element-plus'
 import { useRoute, useRouter } from "vue-router";
-import { useConfigStore } from "@/store/index";
+import { useRouterConfig } from "@/store/permission";
 import { storeToRefs } from 'pinia'
-const configStore = useConfigStore()
-const { users } = storeToRefs(configStore);
+const routerConfig = useRouterConfig()
+const { users } = storeToRefs(routerConfig);
 const systemUserList = users.value
 const router = useRouter()
 
@@ -54,8 +54,6 @@ const rules = reactive<FormRules<RuleForm>>({
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-    console.log(systemUserList)
-
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid) {
@@ -67,9 +65,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 ElMessage.error('用户名不存在！')
             }else{
                 if(systemUserList[index].password === ruleForm.password) {
-                    configStore.$patch(state => {
-                        state.auth = systemUserList[index].name
+                    routerConfig.$patch(state => {
+                        state.roles = systemUserList[index].name
+                        // localStorage.setItem('role', systemUserList[index].name)
+                        // localStorage.setItem('token', 'THIS ID A TOKEN!')
                     })
+                    routerConfig.getPermissonRoutes()
                     router.push('/')
                 }else{
                     ElMessage.error('密码错误！')
@@ -79,6 +80,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             console.log('error submit!', fields)
         }
     })
+}
+
+const userFn = function(type) {
+    if(type === 1) {
+        ruleForm.name = 'admin'
+        ruleForm.password = '123456'
+    } else if (type === 2) {
+        ruleForm.name = 'user'
+        ruleForm.password = '123456'
+    }
 }
 
 </script>
