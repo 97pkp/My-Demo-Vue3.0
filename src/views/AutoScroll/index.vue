@@ -8,6 +8,7 @@
                 </div>
             </vue3-seamless-scroll>
         </el-card>
+        <el-button @click="clickHandle">刷新</el-button>
     </div>
 </template>
 
@@ -18,6 +19,14 @@ import { Vue3SeamlessScroll } from 'vue3-seamless-scroll'
 type Item = {
     title: string,
     date: string
+}
+
+const clickHandle = () => {
+    const _arr = JSON.parse(JSON.stringify(list.value))
+    list.value = []
+    setTimeout(() => {
+        list.value = _arr
+    })
 }
 const list = ref<Item[]>([
     {

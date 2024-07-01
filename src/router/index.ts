@@ -76,7 +76,16 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ "../views/AutoScroll/index.vue"),
         meta: { title: '自动滚动' },
-      }
+      },
+      {
+        path: "/AutoScrollTable",
+        name: "AutoScrollTable",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ "../views/AutoScrollTable/index.vue"),
+        meta: { title: '自动滚动表格' },
+      },
     ]
   }
 ];
