@@ -43,11 +43,6 @@ const setColumnIndex = (list) => {
   return _arr
 }
 
-watch([() => props.sourceData, () => props.columns], (newValue, oldValue) => {
-  showData.value = setIndex(props.sourceData)
-  showColumns.value = setColumnIndex(newValue[1])
-}, { deep: true, immediate: true })
-
 const scrollTable = ref(null)
 //设置时间
 let timer: any = null;
@@ -57,8 +52,9 @@ const scroll = () => {
   if (timer) clearInterval(timer);
   let status = true;
   // 获取表格滚动区域的dom
+  const wrapDom = scrollTable.value?.$refs.bodyWrapper
   const scrollDom = scrollTable.value?.$refs.bodyWrapper?.getElementsByClassName("el-scrollbar__wrap")[0];
-  if (!scrollDom) return
+  if (!wrapDom || !scrollDom) return
   // 增加监听事件鼠标移入停止滚动
   scrollDom.addEventListener('mouseover', () => {
     status = false;
@@ -67,7 +63,11 @@ const scroll = () => {
   scrollDom.addEventListener('mouseout', () => {
     status = true;
   });
-  if(scrollDom.scrollHeight === scrollDom.clientHeight) return
+  console.log('wrap:',wrapDom.scrollHeight, scrollTable.value?.$refs.bodyWrapper.clientHeight, scrollTable.value?.$refs.bodyWrapper.scrollTop);
+  
+  console.log('view:', scrollDom.scrollHeight , scrollDom.clientHeight, scrollDom.scrollTop);
+  
+  if(wrapDom.scrollHeight >= scrollDom.scrollHeight) return
   // 设置每秒滚动一行
   timer = setInterval(() => {
     if (status) {
@@ -92,8 +92,16 @@ const getData = () => {
   setTimeout(() => { scroll() }, 5)
 }
 
-onMounted(() => {
+
+watch([() => props.sourceData, () => props.columns], (newValue, oldValue) => {
+  showData.value = setIndex(props.sourceData)
+  showColumns.value = setColumnIndex(newValue[1])
   getData()
+}, { deep: true, immediate: true })
+
+
+onMounted(() => {
+  
 })
 onUnmounted(() => {
   if (timer) clearInterval(timer);

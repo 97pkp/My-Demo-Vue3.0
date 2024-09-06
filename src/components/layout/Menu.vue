@@ -35,15 +35,21 @@ router.options.routes.forEach((item: any) => {
 })
 const routers = _arr
 
-const activeMenu = computed(() => {
-    const route = useRoute()
-    const { meta, path, name } = route
-    // if set path, the sidebar will highlight the path you set
-    if (meta.activeMenu) {
-        return meta.activeMenu
-    }
-    return name
-})
+// const activeMenu = computed(() => {
+//     const route = useRoute()
+//     console.log('>>>>', useRouter());
+    
+//     console.log('>><', route);
+    
+//     const { meta, path, name } = route
+//     // if set path, the sidebar will highlight the path you set
+//     if (meta.activeMenu) {
+//         return meta.activeMenu
+//     }
+//     return name
+// })
+
+const activeMenu = ref('首页')
 
 function logoChange(e: any) {
     configStore.$patch(state => {

@@ -50,6 +50,8 @@ module.exports = {
         "@store": path.resolve(__dirname, './src/store'),
       } // 别名配置
     })
+
+    config.devtool = 'source-map'
   },
   // 生产环境是否生成 sourceMap 文件
 	productionSourceMap: true,

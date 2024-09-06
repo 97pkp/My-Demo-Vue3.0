@@ -86,6 +86,36 @@ export const constantRoutes: Array<RouteRecordRaw> = [
         component: () => import(/* webpackChunkName: "about" */ "../views/AutoScrollTable/index.vue"),
         meta: { title: '自动滚动表格' },
       },
+      {
+        path: "/DiDemo",
+        name: "DiDemo",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ "../views/DiDemo/index.vue"),
+        meta: { title: '低代码' },
+      },
+      {
+        path: "/ViewFile",
+        name: "ViewFile",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ "../views/ViewFile/index.vue"),
+        meta: { title: '文件预览' },
+      },
+      {
+        path: "/xxxxxxxxx",
+        name: "xxxxxxxxx",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ "../views/xxxxxxxxx/index.vue"),
+        meta: { title: '文件xxx测试' },
+      },
+
+
+      
     ]
   }
 ];
